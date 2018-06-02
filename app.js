@@ -35,6 +35,8 @@ app.get('/api/translate/', (req, res) => {
             }
         }
         res.send(result)
+    }).catch((err) => {
+        console.log(err)
     })
 })
 
