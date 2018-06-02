@@ -32,6 +32,14 @@ module.exports = (app) => {
                   },
                   {
                       "text": "Mời bạn nghe nhạc."
+                  },
+                  {
+                    "attachment": {
+                      "type": "file",
+                      "payload": {
+                        "url": "https://rockets.chatfuel.com/assets/ticket.pdf"
+                      }
+                    }
                   }
                 ]
               }
