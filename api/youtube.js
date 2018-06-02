@@ -29,6 +29,9 @@ module.exports = (app) => {
                         "url": "https://bot-tpm6.herokuapp.com/videos/video.mp4"
                       }
                     }
+                  },
+                  {
+                      "text": "Mời bạn nghe nhạc."
                   }
                 ]
               }
