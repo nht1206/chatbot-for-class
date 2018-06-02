@@ -24,20 +24,9 @@ module.exports = (app) => {
                 "messages": [
                   {
                     "attachment": {
-                      "type": "video",
+                      "type": "audio",
                       "payload": {
-                        "url": "https://bot-tpm6.herokuapp.com/videos/video.mp4"
-                      }
-                    }
-                  },
-                  {
-                      "text": "Mời bạn nghe nhạc."
-                  },
-                  {
-                    "attachment": {
-                      "type": "file",
-                      "payload": {
-                        "url": "https://rockets.chatfuel.com/assets/ticket.pdf"
+                        "url": "https://rockets.chatfuel.com/assets/hello.mp3"
                       }
                     }
                   }
