@@ -45,6 +45,7 @@ module.exports = (app) => {
                     { "text": "Url bạn nhập bị sai rồi." }
                 ]
             }
+            res.send(result)
         }
     })
 }
