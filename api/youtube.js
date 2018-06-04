@@ -4,17 +4,47 @@ const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
 
 module.exports = (app) => {
-    app.get('/api/youtube/', (req, res) => {
+    app.get('/api/youtube', (req, res) => {
+        //get url by user's request
         let url = req.param('url')
-        ytdl(url, { filter: (format) => format.container === 'mp4' })
-        .pipe(fs.createWriteStream('api/public/video.mp4'))
-        ffmpeg.setFfmpegPath(ffmpegPath)
-        setTimeout(() => {
-            ffmpeg({ source: 'api/public/video.mp4' })
-            .inputFormat('mp4')
-            .withAudioCodec('libmp3lame')
-            .toFormat('mp3')
-            .save('api/public/audio.mp3')
-        }, 3000)
+        let checkUrl = ytdl.validateURL(url)
+        if (checkUrl) {
+            //get stream download from ytbdl
+            let inputStream = ytdl(url, { filter: (format) => format.container === 'mp4' })
+            //.pipe(fs.createWriteStream('api/public/video.mp4'))
+            //set enviroment's Path for ffmpeg
+            ffmpeg.setFfmpegPath(ffmpegPath)
+            ffmpeg({ source: inputStream })
+                .inputFormat('mp4')
+                .withAudioCodec('libmp3lame')
+                .toFormat('mp3')
+                .on('end', (stdout, stderr) => {
+                    console.log('File has been converted succesfully!.')
+                    let result = {
+                        "messages": [
+                            { "text": "Audio của bạn đây." },
+                            {
+                                "attachment": {
+                                    "type": "audio",
+                                    "payload": {
+                                        "url": "https://bot-tpm6.herokuapp.com/assets/audio.mp3"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                    res.send(result)
+                })
+                .on('error', (err) => {
+                    console.log('An error occurred: ' + err.message)
+                })
+                .save('api/public/audio.mp3')
+        } else {
+            let result = {
+                "messages": [
+                    { "text": "Url bạn nhập bị sai rồi." }
+                ]
+            }
+        }
     })
 }
