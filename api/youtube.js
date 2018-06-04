@@ -22,7 +22,6 @@ module.exports = (app) => {
                     console.log('File has been converted succesfully!.')
                     let result = {
                         "messages": [
-                            { "text": "Audio của bạn đây." },
                             {
                                 "attachment": {
                                     "type": "audio",
