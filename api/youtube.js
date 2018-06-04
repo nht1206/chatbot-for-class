@@ -2,6 +2,11 @@ const fs = require('fs')
 const ytdl = require('ytdl-core')
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
+const dropboxV2Api = require('dropbox-v2-api')
+
+const dropbox = dropboxV2Api.authenticate({
+    token: 'R004Ca7izrAAAAAAAAAAIej4UBJ6WIjO2K1DeEbTsozDi2idTuBk2HdUTNMNhgJW'
+})
 
 module.exports = (app) => {
     app.get('/api/youtube', (req, res) => {
@@ -20,13 +25,14 @@ module.exports = (app) => {
                 .toFormat('mp3')
                 .on('end', (stdout, stderr) => {
                     console.log('File has been converted succesfully!.')
+
                     let result = {
                         "messages": [
                             {
                                 "attachment": {
                                     "type": "audio",
                                     "payload": {
-                                        "url": "https://bot-k23tpm6.herokuapp.com/assets/audio.mp3"
+                                        "url": "https:/dl.dropbox.com/s/exl16431m27v4xx/audio.mp3"
                                     }
                                 }
                             }
