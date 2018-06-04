@@ -10,9 +10,12 @@
   "author": "nht1206",
   "license": "ISC",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.15",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "express": "~4.16.3",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
     "google-translate-api": "~2.3.0",
     "morgan": "~1.9.0",
     "ytdl-core": "^0.20.4"

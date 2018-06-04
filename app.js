@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const app = express()
 let port = process.env.PORT || 3000
 
-app.use('/videos', express.static(__dirname + '/public'))
+app.use('/assets', express.static(__dirname + '/api/public'))
 app.use(morgan('dev'))
 app.use(cookie())
 app.use(bodyParser.urlencoded({
