@@ -32,7 +32,7 @@ module.exports = (app) => {
                                 "attachment": {
                                     "type": "audio",
                                     "payload": {
-                                        "url": "https:/dl.dropbox.com/s/exl16431m27v4xx/audio.mp3"
+                                        "url": "https://dl.dropbox.com/s/exl16431m27v4xx/audio.mp3"
                                     }
                                 }
                             }
