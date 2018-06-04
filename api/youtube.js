@@ -27,7 +27,7 @@ module.exports = (app) => {
                                 "attachment": {
                                     "type": "audio",
                                     "payload": {
-                                        "url": "https://bot-tpm6.herokuapp.com/assets/audio.mp3"
+                                        "url": "https://bot-k23tpm6.herokuapp.com/assets/audio.mp3"
                                     }
                                 }
                             }
