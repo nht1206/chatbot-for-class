@@ -34,15 +34,7 @@ module.exports = (app) => {
                         //upload completed
                         let data = {
                             "messages": [
-                                {
-                                    "attachment": {
-                                        "type": "audio",
-                                        "payload": {
-                                            "url": "https://dl.dropboxusercontent.com/s/6tq7acp0nln828s/audio.mp3"
-                                        }
-                                    }
-                                },
-                                {"text": "Mời bạn nghe nhạc."}
+                                { "text": "Mời bạn nghe nhạc." }
                             ]
                         }
                         res.send(data)
