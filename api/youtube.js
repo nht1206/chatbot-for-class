@@ -32,7 +32,7 @@ module.exports = (app) => {
                         }
                     }, (err, result, response) => {
                         //upload completed
-                        let result = {
+                        let data = {
                             "messages": [
                                 {
                                     "attachment": {
@@ -45,7 +45,7 @@ module.exports = (app) => {
                                 {"text": "Mời bạn nghe nhạc."}
                             ]
                         }
-                        res.send(result)
+                        res.send(data)
                     })
                     fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
                 })
