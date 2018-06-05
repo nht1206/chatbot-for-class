@@ -9,7 +9,7 @@ const dropbox = dropboxV2Api.authenticate({
 })
 
 module.exports = (app) => {
-    app.get('/api/youtube', (req, res) => {
+    app.get('/api/ytbdl', (req, res) => {
         //get url by user's request
         let url = req.param('url')
         let checkUrl = ytdl.validateURL(url)
@@ -25,21 +25,12 @@ module.exports = (app) => {
                 .toFormat('mp3')
                 .on('end', (stdout, stderr) => {
                     console.log('File has been converted succesfully!.')
-                    const dropboxUploadStream = dropbox({
-                        resource: 'files/upload',
-                        parameters: {
-                            path: '/bot/audio.mp3'
-                        }
-                    }, (err, result, response) => {
-                        //upload completed
-                        let data = {
-                            "messages": [
-                                { "text": "Đã tải xong." }
-                            ]
-                        }
-                        res.send(data)
-                    })
-                    fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
+                    let data = {
+                        "messages": [
+                            { "text": "Chuyển thành mp3 thành công.!" }
+                        ]
+                    }
+                    res.send(data)
                 })
                 .on('error', (err) => {
                     console.log('An error occurred: ' + err.message)
@@ -53,5 +44,16 @@ module.exports = (app) => {
             }
             res.send(result)
         }
+    })
+    app.get('api/drbUpload', (req, res) => {
+        const dropboxUploadStream = dropbox({
+            resource: 'files/upload',
+            parameters: {
+                path: '/bot/audio.mp3'
+            }
+        }, (err, result, response) => {
+            //upload completed
+        })
+        fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
     })
 }
