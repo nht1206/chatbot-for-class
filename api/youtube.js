@@ -4,6 +4,7 @@ const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
 const dropboxV2Api = require('dropbox-v2-api')
 
+
 const dropbox = dropboxV2Api.authenticate({
     token: 'R004Ca7izrAAAAAAAAAAJIGI26bVfUwfEVlLdkGJZrhvuCECv2zS1YFZOeUvuLo-'
 })
@@ -37,15 +38,15 @@ module.exports = (app) => {
                 })
                 .save('api/public/audio.mp3')
         } else {
-            let result = {
+            let data = {
                 "messages": [
                     { "text": "Url bạn nhập bị sai rồi." }
                 ]
             }
-            res.send(result)
+            res.send(data)
         }
     })
-    app.get('api/drbUpload', (req, res) => {
+    app.get('/api/drbUpload', (req, res) => {
         const dropboxUploadStream = dropbox({
             resource: 'files/upload',
             parameters: {
@@ -53,6 +54,12 @@ module.exports = (app) => {
             }
         }, (err, result, response) => {
             //upload completed
+            let data = {
+                "messages": [
+                    { "text": "Upload thành công." }
+                ]
+            }
+            res.send(data)
         })
         fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
     })
