@@ -7,8 +7,6 @@ const dropboxV2Api = require('dropbox-v2-api')
 const dropbox = dropboxV2Api.authenticate({
     token: 'R004Ca7izrAAAAAAAAAAJIGI26bVfUwfEVlLdkGJZrhvuCECv2zS1YFZOeUvuLo-'
 })
-// use session ref to call API, i.e.:
-
 
 module.exports = (app) => {
     app.get('/api/youtube', (req, res) => {
@@ -32,17 +30,28 @@ module.exports = (app) => {
                         parameters: {
                             path: '/bot/audio.mp3'
                         }
-                    }, (err, result, res) => {
-
+                    }, (err, result, response) => {
+                        //upload completed
+                        dropbox({
+                            resource: 'sharing/get_file_metadata',
+                            parameters: {
+                                'file': result.id,
+                                'actions': []
+                            }
+                        }, (err, result) => {
+                            //see docs for `result` parameters
+                            console.log(result)
+                        })
                     })
                     fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
+                    
                     let result = {
                         "messages": [
                             {
                                 "attachment": {
                                     "type": "audio",
                                     "payload": {
-                                        "url": "https://dl.dropbox.com/s/9zapv178i4xa3ho/audio.mp3"
+                                        "url": "https://dl.dropboxusercontent.com/s/6tq7acp0nln828s/audio.mp3"
                                     }
                                 }
                             }
