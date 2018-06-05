@@ -5,8 +5,10 @@ const ffmpeg = require('fluent-ffmpeg')
 const dropboxV2Api = require('dropbox-v2-api')
 
 const dropbox = dropboxV2Api.authenticate({
-    token: 'R004Ca7izrAAAAAAAAAAIej4UBJ6WIjO2K1DeEbTsozDi2idTuBk2HdUTNMNhgJW'
+    token: 'R004Ca7izrAAAAAAAAAAJIGI26bVfUwfEVlLdkGJZrhvuCECv2zS1YFZOeUvuLo-'
 })
+// use session ref to call API, i.e.:
+
 
 module.exports = (app) => {
     app.get('/api/youtube', (req, res) => {
@@ -25,14 +27,22 @@ module.exports = (app) => {
                 .toFormat('mp3')
                 .on('end', (stdout, stderr) => {
                     console.log('File has been converted succesfully!.')
+                    const dropboxUploadStream = dropbox({
+                        resource: 'files/upload',
+                        parameters: {
+                            path: '/bot/audio.mp3'
+                        }
+                    }, (err, result, res) => {
 
+                    })
+                    fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
                     let result = {
                         "messages": [
                             {
                                 "attachment": {
                                     "type": "audio",
                                     "payload": {
-                                        "url": "https://dl.dropbox.com/s/exl16431m27v4xx/audio.mp3"
+                                        "url": "https://dl.dropbox.com/s/9zapv178i4xa3ho/audio.mp3"
                                     }
                                 }
                             }
