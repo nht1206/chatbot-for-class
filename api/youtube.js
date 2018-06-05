@@ -32,16 +32,7 @@ module.exports = (app) => {
                         }
                     }, (err, result, response) => {
                         //upload completed
-                        dropbox({
-                            resource: 'sharing/get_file_metadata',
-                            parameters: {
-                                'file': result.id,
-                                'actions': []
-                            }
-                        }, (err, result) => {
-                            //see docs for `result` parameters
-                            console.log(result)
-                        })
+                        
                     })
                     fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
                     
