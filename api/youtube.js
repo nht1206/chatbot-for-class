@@ -45,7 +45,8 @@ module.exports = (app) => {
                                         "url": "https://dl.dropboxusercontent.com/s/6tq7acp0nln828s/audio.mp3"
                                     }
                                 }
-                            }
+                            },
+                            {"text": "Mời bạn nghe nhạc."}
                         ]
                     }
                     res.send(result)
