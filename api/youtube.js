@@ -32,24 +32,22 @@ module.exports = (app) => {
                         }
                     }, (err, result, response) => {
                         //upload completed
-                        
+                        let result = {
+                            "messages": [
+                                {
+                                    "attachment": {
+                                        "type": "audio",
+                                        "payload": {
+                                            "url": "https://dl.dropboxusercontent.com/s/6tq7acp0nln828s/audio.mp3"
+                                        }
+                                    }
+                                },
+                                {"text": "Mời bạn nghe nhạc."}
+                            ]
+                        }
+                        res.send(result)
                     })
                     fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
-                    
-                    let result = {
-                        "messages": [
-                            {
-                                "attachment": {
-                                    "type": "audio",
-                                    "payload": {
-                                        "url": "https://dl.dropboxusercontent.com/s/6tq7acp0nln828s/audio.mp3"
-                                    }
-                                }
-                            },
-                            {"text": "Mời bạn nghe nhạc."}
-                        ]
-                    }
-                    res.send(result)
                 })
                 .on('error', (err) => {
                     console.log('An error occurred: ' + err.message)
