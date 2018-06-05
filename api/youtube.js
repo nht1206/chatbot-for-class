@@ -34,7 +34,7 @@ module.exports = (app) => {
                         //upload completed
                         let data = {
                             "messages": [
-                                { "text": "Mời bạn nghe nhạc." }
+                                { "text": "Đã tải xong." }
                             ]
                         }
                         res.send(data)
