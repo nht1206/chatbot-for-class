@@ -3,6 +3,9 @@ module.exports = (app) => {
     app.get('/api/translate/', (req, res) => {
         let text = req.param('text')
         let to = req.param('to')
+        if (!to) {
+            to = 'vi'
+        }
         translate(text, { to : to}).then((data) => {
             if (data.from.text.value) {
                 var result = {
