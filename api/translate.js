@@ -8,13 +8,29 @@ module.exports = (app) => {
                 var result = {
                     "messages": [
                       {"text": data.text},
-                      {"text": "Sai lỗi chính tả: " + data.from.text.value}
+                      {"text": "Sai lỗi chính tả: " + data.from.text.value},
+                      {
+                        "attachment": {
+                          "type": "audio",
+                          "payload": {
+                            "url": "https://translate.google.com.vn/translate_tts?ie=UTF-8&q="+ data.text.replace(/ /g, '%20') +"&tl="+ to +"&client=tw-ob"
+                          }
+                        }
+                        }
                     ]
                 }
             } else {
                 var result = {
                     "messages": [
-                        {"text": data.text}
+                        {"text": data.text},
+                        {
+                            "attachment": {
+                              "type": "audio",
+                              "payload": {
+                                "url": "https://translate.google.com.vn/translate_tts?ie=UTF-8&q="+ data.text.replace(/ /g, '%20') +"&tl="+ to +"&client=tw-ob"
+                              }
+                            }
+                        }
                     ]
                 }
             }
