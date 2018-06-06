@@ -16,7 +16,10 @@ module.exports = (app) => {
         let checkUrl = ytdl.validateURL(url)
         if (checkUrl) {
             //get stream download from ytbdl
-            let inputStream = ytdl(url, { filter: (format) => format.container === 'mp4' })
+            const inputStream = ytdl(url, { filter: (format) => format.container === 'mp4' })
+            const audioName = new Date().getTime() + '.mp3'
+            const output = 'api/public/' + audioName
+            const outputStream = fs.createWriteStream(output)
             //.pipe(fs.createWriteStream('api/public/video.mp4'))
             //set enviroment's Path for ffmpeg
             ffmpeg.setFfmpegPath(ffmpegPath)
@@ -25,18 +28,27 @@ module.exports = (app) => {
                 .withAudioCodec('libmp3lame')
                 .toFormat('mp3')
                 .on('end', (stdout, stderr) => {
+                    const dropboxUploadStream = dropbox({
+                        resource: 'files/upload',
+                        parameters: {
+                            path: '/bot/' + audioName
+                        }
+                    }, (err, result, response) => {
+                        //upload completed
+                        let data = {
+                            "messages": [
+                                { "text": "Upload thành công." }
+                            ]
+                        }
+                        res.send(data)
+                    })
                     console.log('File has been converted succesfully!.')
-                    let data = {
-                        "messages": [
-                            { "text": "Chuyển thành mp3 thành công.!" }
-                        ]
-                    }
-                    res.send(data)
+                    fs.createReadStream('api/public/' + audioName).pipe(dropboxUploadStream)
                 })
                 .on('error', (err) => {
                     console.log('An error occurred: ' + err.message)
                 })
-                .save('api/public/audio.mp3')
+                .stream(outputStream, { end : true})
         } else {
             let data = {
                 "messages": [
@@ -45,22 +57,5 @@ module.exports = (app) => {
             }
             res.send(data)
         }
-    })
-    app.get('/api/drbUpload', (req, res) => {
-        const dropboxUploadStream = dropbox({
-            resource: 'files/upload',
-            parameters: {
-                path: '/bot/audio.mp3'
-            }
-        }, (err, result, response) => {
-            //upload completed
-            let data = {
-                "messages": [
-                    { "text": "Upload thành công." }
-                ]
-            }
-            res.send(data)
-        })
-        fs.createReadStream('api/public/audio.mp3').pipe(dropboxUploadStream)
     })
 }
