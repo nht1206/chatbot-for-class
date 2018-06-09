@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 
 require('./api/translate')(app)
 require('./api/youtube')(app)
+require('./api/chatWithStrangers')(app)
 
 app.listen(port, () => {
     console.log('Server listening on port: ', port)
