@@ -51,8 +51,8 @@ module.exports = (app) => {
                     //partner.setStrangers(sender.userID)
                     sender.strangersID = partner.userID
                     partner.strangersID = sender.userID
-                    sender.save()
-                    partner.save()
+                    await sender.save()
+                    await partner.save()
                     helper.sendMessage(sender.userID, '✅Bạn đả được kết nối thành công.')
                     helper.sendMessage(partner.userID, '✅Bạn đả được kết nối thành công.')
                     res.status(200)
