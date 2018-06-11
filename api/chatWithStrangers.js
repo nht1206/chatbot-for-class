@@ -16,26 +16,9 @@ module.exports = (app) => {
                     online: true,
                     gender: gender
                 })
-                newUser.save()
+                let sender = await newUser.save()
             }
-            if (sender.gender == 'female') {
-                var partner = await Users.findOne({ strangersID: '', gender: 'male', online: true })
-            } else {
-                var partner = await Users.findOne({ strangersID: '', gender: 'female', online: true })
-            }
-            if (partner) {
-                //sender = await helper.setStrangers(sender.userID, partner.userID)
-                //partner = await helper.setStrangers(partner.userID, sender.userID)
-                //sender.setStrangers(partner.userID)
-                //partner.setStrangers(sender.userID)
-                sender.strangersID = partner.userID
-                partner.strangersID = sender.userID
-                sender.save()
-                partner.save()
-                helper.sendMessage(sender.userID, '✅Bạn đả được kết nối thành công.')
-                helper.sendMessage(partner.userID, '✅Bạn đả được kết nối thành công.')
-                res.status(200).send('success')
-            } else if (!sender.strangersID) {
+            if (sender.strangersID || sender.online) {
                 let json = {
                     "messages": [
                         {
@@ -46,7 +29,7 @@ module.exports = (app) => {
                                     "elements": [
                                         {
                                             "title": "🎉",
-                                            "subtitle": "Đợi xíu mình đang kiếm người lạ cho bạn."
+                                            "subtitle": "Bạn đả tham gia chat."
                                         }
                                     ]
                                 }
@@ -56,25 +39,44 @@ module.exports = (app) => {
                 }
                 res.send(json)
             } else {
-                let json = {
-                    "messages": [
-                        {
-                            "attachment": {
-                                "type": "template",
-                                "payload": {
-                                    "template_type": "generic",
-                                    "elements": [
-                                        {
-                                            "title": "🎉",
-                                            "subtitle": "Bạn đả được kết nối!."
-                                        }
-                                    ]
+                if (sender.gender == 'female') {
+                    var partner = await Users.findOne({ strangersID: '', gender: 'male', online: true })
+                } else {
+                    var partner = await Users.findOne({ strangersID: '', gender: 'female', online: true })
+                }
+                if (partner) {
+                    //sender = await helper.setStrangers(sender.userID, partner.userID)
+                    //partner = await helper.setStrangers(partner.userID, sender.userID)
+                    //sender.setStrangers(partner.userID)
+                    //partner.setStrangers(sender.userID)
+                    sender.strangersID = partner.userID
+                    partner.strangersID = sender.userID
+                    sender.save()
+                    partner.save()
+                    helper.sendMessage(sender.userID, '✅Bạn đả được kết nối thành công.')
+                    helper.sendMessage(partner.userID, '✅Bạn đả được kết nối thành công.')
+                    res.status(200).send('success')
+                } else {
+                    let json = {
+                        "messages": [
+                            {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload": {
+                                        "template_type": "generic",
+                                        "elements": [
+                                            {
+                                                "title": "🎉",
+                                                "subtitle": "Đợi xíu mình đang kiếm người lạ cho bạn."
+                                            }
+                                        ]
+                                    }
                                 }
                             }
-                        }
-                    ]
-                }
-                res.send(json)
+                        ]
+                    }
+                    res.send(json)
+                }  
             }
         } catch (e) {
             console.log(e)
