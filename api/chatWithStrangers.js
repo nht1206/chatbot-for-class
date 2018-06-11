@@ -91,7 +91,7 @@ module.exports = (app) => {
                 mess = await helper.checkMess(mess)
                 helper.sendMessage(user.userID, mess)
                 res.status(200).send('success')
-            } else if (user.online) {
+            } else if (user.online && !user.strangersID) {
                 let json = {
                     "messages": [
                         {
