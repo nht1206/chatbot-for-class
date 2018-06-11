@@ -55,7 +55,7 @@ module.exports = (app) => {
                     partner.save()
                     helper.sendMessage(sender.userID, '✅Bạn đả được kết nối thành công.')
                     helper.sendMessage(partner.userID, '✅Bạn đả được kết nối thành công.')
-                    res.status(200).send('success')
+                    res.status(200)
                 } else {
                     let json = {
                         "messages": [
