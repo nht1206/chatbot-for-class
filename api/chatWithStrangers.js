@@ -89,8 +89,9 @@ module.exports = (app) => {
             let user = await Users.findOne({ userID: userID })
             console.log(user.strangersID)
             if (user.strangersID) {
+                let partner = await Users.findOne({ userID: user.strangersID })
                 mess = await helper.checkMess(mess)
-                helper.sendMessage(user.userID, mess)
+                helper.sendMessage(partner.userID, mess)
                 res.status(200).send('success')
             } else {
                 console.log(user)
