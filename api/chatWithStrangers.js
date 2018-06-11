@@ -18,7 +18,7 @@ module.exports = (app) => {
                 })
                 let sender = await newUser.save()
             }
-            if (sender.strangersID || sender.online) {
+            if (sender.strangersID && sender.online) {
                 let json = {
                     "messages": [
                         {
