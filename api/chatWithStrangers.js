@@ -92,7 +92,7 @@ module.exports = (app) => {
                 let partner = await Users.findOne({ userID: user.strangersID })
                 mess = await helper.checkMess(mess)
                 helper.sendMessage(partner.userID, mess)
-                res.status(200).send('success')
+                res.status(200)
             } else {
                 console.log(user)
                 let json = {
@@ -152,7 +152,7 @@ module.exports = (app) => {
                     partner.save()
                     helper.sendMessage(sender.userID, "💔 Bạn đã dừng chát ! Để tiếp tục hãy gõ 'Start'")
                     helper.sendMessage(partner.userID, "💔 Người lạ đã rời chát ! Để tiếp tục hãy gõ 'Start'")
-                    res.status(200).send('success')
+                    res.status(200)
                 } else {
                     let json = {
                         "messages": [
