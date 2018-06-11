@@ -16,7 +16,7 @@ module.exports = (app) => {
                     online: true,
                     gender: gender
                 })
-                let sender = await newUser.save()
+                sender = await newUser.save()
             }
             if (sender.strangersID && sender.online) {
                 let json = {
