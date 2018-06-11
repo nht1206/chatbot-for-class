@@ -87,11 +87,13 @@ module.exports = (app) => {
         let mess = req.param('mess')
         try {
             let user = await Users.findOne({ userID: userID })
+            console.log(user.strangersID)
             if (user.strangersID) {
                 mess = await helper.checkMess(mess)
                 helper.sendMessage(user.userID, mess)
                 res.status(200).send('success')
-            } else if (!user.strangersID) {
+            } else {
+                console.log(user)
                 let json = {
                     "messages": [
                         {
@@ -111,27 +113,7 @@ module.exports = (app) => {
                     ]
                 }
                 res.send(json)
-            } else {
-                let json = {
-                    "messages": [
-                        {
-                            "attachment": {
-                                "type": "template",
-                                "payload": {
-                                    "template_type": "generic",
-                                    "elements": [
-                                        {
-                                            "title": "⛔️",
-                                            "subtitle": "Bạn chưa tham gia chat! Hãy gõ \'Start\' bắt đầu cuộc trò chuyện."
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                }
-                res.send(json)
-            }
+            } 
         } catch (e) {
             console.log(e)
         }
