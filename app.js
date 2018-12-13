@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
 const app = express()
-let port = process.env.PORT || 3000
+let port = process.env.PORT || 3001
 
 app.use('/assets', express.static(__dirname + '/api/public'))
 app.use(morgan('dev'))
